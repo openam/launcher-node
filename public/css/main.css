@@ -1,0 +1,128 @@
+* { margin: 0; padding: 0; }
+
+body {
+  font-family: "Lucida Grande", "Lucida Sans Unicode", Arial, Verdana, sans-serif;
+  font-size: 12pt;
+  color: #393733;
+  background: #A1A1A1;
+}
+
+div#page-container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/********************************************************************************************************* Header */
+div#header, div#header-background {
+  height: 70px;
+}
+
+div#header-background {
+  position: absolute;
+  width: 100%;
+
+  background: -moz-linear-gradient(top, rgba(255,255,255,0.97) 0%, rgba(245,245,245,1) 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0.97)), color-stop(100%,rgba(245,245,245,1))); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, rgba(255,255,255,0.97) 0%,rgba(245,245,245,1) 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, rgba(255,255,255,0.97) 0%,rgba(245,245,245,1) 100%); /* Opera11.10+ */
+  background: -ms-linear-gradient(top, rgba(255,255,255,0.97) 0%,rgba(245,245,245,1) 100%); /* IE10+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f7ffffff', endColorstr='#f5f5f5',GradientType=0 ); /* IE6-9 */
+  background: linear-gradient(top, rgba(255,255,255,0.97) 0%,rgba(245,245,245,1) 100%); /* W3C */
+
+  -moz-box-shadow: 0 0 8px #444444;
+  -webkit-box-shadow: 0 0 8px #444444;
+  box-shadow: 0 0 8px #444444;
+
+}
+
+div#header {
+  position: relative;
+  margin-bottom: 15px;
+
+  font-size: 40pt;
+  padding-left: 10px;
+}
+
+/********************************************************************************************************* Content */
+div#content {
+/*  width: 700px;*/
+  margin: 0 auto;
+  padding: 0 5px 5px;
+}
+
+/********************************************************************************************************* Typography */
+a {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+
+/********************************************************************************************************* Buttons */
+
+ul.list-buttons {
+  padding-left: 0px;
+}
+
+ul.list-buttons li {
+  list-style: none;
+}
+
+ul.list-buttons a {
+  background: #EDEDED;
+  color: #565656;
+  border: 0;
+  text-align: left;
+
+  -moz-box-shadow: 0 0 8px #444444;
+  -webkit-box-shadow: 0 0 8px #444444;
+  box-shadow: 0 0 8px #444444;
+
+  -webkit-border-top-left-radius: 5px;
+  -khtml-border-radius-topleft: 5px;
+  -moz-border-radius-topleft: 5px;
+  border-top-left-radius: 5px;
+
+  -webkit-border-bottom-left-radius: 5px;
+  -khtml-border-radius-bottomleft: 5px;
+  -moz-border-radius-bottomleft: 5px;
+  border-bottom-left-radius: 5px;
+
+  -webkit-border-bottom-right-radius: 5px;
+  -khtml-border-radius-bottomright: 5px;
+  -moz-border-radius-bottomright: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+ul.list-buttons a:hover {
+  text-decoration: none;
+  background: #565656;
+  color: #FFFFFF;
+
+  -moz-box-shadow: 0 0 2px #444444;
+  -webkit-box-shadow: 0 0 2px #444444;
+  box-shadow: 0 0 2px #444444;
+}
+
+ul.list-buttons li a {
+  display: block;
+  margin: 0 10px 10px;
+  padding: 8px 12px;
+}
+
+/********************************************************************************************************* Search */
+.center {
+  margin: 0 auto;
+  padding: 8px 12px;
+  width: 100%;
+  float: center;
+}
+
+.center > form > input {
+  width: 80%;
+  height: 20px;
+}
+
+.center > form > button {
+  width: 14%;
+  height: 25px;
+}

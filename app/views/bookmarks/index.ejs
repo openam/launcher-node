@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Launcher</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="HandheldFriendly" content="true" />
+		<meta name="MobileOptimized" content="320" />
+		<meta name="description" content="Bookmark Application">
+		<meta name="author" content="Michael Tuttle">
+
+		<!-- CSS Files -->
+		<link rel="stylesheet" type="text/css" href="/css/main.css">
+
+		<!-- Scripts -->
+		<script src="/js/jquery-1.8.1.min.js"></script>
+	</head>
+
+	<body>
+		<div id="header-background" style="position: absolute; width: 100%"></div>
+		<div id="page-container">
+			<div id="header">Bookmarks</div>
+			<div id="content">
+				<% if (bookmarks.length) { %>
+					<ul id="button-list" class="list-buttons">
+						<% bookmarks.forEach(function(bookmark){ %>
+							<li><a id="title-<%= bookmark.title %>" href="//<%= bookmark.link %>"><%= bookmark.title %></a></li>
+						<% }) %>
+					</ul>
+				<% } else { %>
+					<p>You have no bookmarks.</p>
+				<% } %>
+			</div>
+
+			<div class="center">
+                <form method="get" action="http://www.google.com/search" name="search">
+	                <input name="q" value="" id="search-input" />
+	                <button id="search-button">Search</button>
+                </form>
+	        </div>
+
+			<a id="add-bookmark" href="#">Add Bookmark</a>
+			<div id="form-div">
+				<h1><%= title %></h1>
+				<form id="add-form" method="post" action="/bookmarks/add" class="form-horizontal">
+					<div class="control-group">
+						<label class="control-label" for="bookmark[title]">Title</label>
+						<div class="controls">
+							<input type="text" id="title" name="bookmark[title]" placeholder="Title">
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="bookmark[link]">Link</label>
+						<div class="controls">
+							<input type="text" id="link" name="bookmark[link]" placeholder="www.example.com">
+						</div>
+					</div>
+				</form>
+				<div class="add-form-buttons">
+					<button id="add-submit" class="btn btn-primary">Save changes</button>
+					<button id="cancel-button" class="btn">Cancel</button>
+				</div>
+			</div>
+
+			<hr>
+			<div id="footer">
+				<p>&copy; 2012 <a href="http://www.mstuttle.com">Michael Tuttle</a>.</p>
+			</div>
+		</div>
+
+		<script type="text/javascript">
+/*
+ * This contains the scripts used for Transaction::add & edit
+ */
+	$(function() {
+		$("#form-div").hide();
+
+		/**
+		 * Setup Buttons
+		 */
+			$("#add-bookmark").bind('click', function() { $("#form-div").show(); });
+			$("#cancel-button").bind('click', function() { $("#form-div").hide(); return false;});
+			$("#add-submit").bind('click', function() {
+				$.post('/bookmarks/add/', $('#add-form').serialize());
+				// $("#add-form").ajaxSubmit({url: '/bookmarks/add/', type: 'post'});
+				// return false;
+			});
+	});
+		</script>
+	</body>
+</html>
