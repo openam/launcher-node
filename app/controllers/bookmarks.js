@@ -34,7 +34,8 @@ module.exports = function(app, db) {
 			'created': Date.now()
 		};
 
-		db.set(req.body.bookmark.title, entry);
-		res.send('add', entry);
+		db.set(req.body.bookmark.title, entry, function(){
+			res.send('add', entry);
+		});
 	});
 }
