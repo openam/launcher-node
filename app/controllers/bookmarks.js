@@ -14,8 +14,10 @@ module.exports = function(app, db) {
 			var bookmarks = []
 			var count     = 0;
 			db.forEach(function(key, doc) {
-				bookmarks[count] = doc;
-				count++;
+				if (doc) {
+					bookmarks[count] = doc;
+					count++;
+				}
 			});
 
 		res.render('bookmarks/index', {
