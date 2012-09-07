@@ -14,8 +14,6 @@ module.exports = function(app, db) {
 			var bookmarks = []
 			var count     = 0;
 			db.forEach(function(key, doc) {
-				// console.log('%s is %j', key, doc)
-				// doc.title = key;
 				bookmarks[count] = doc;
 				count++;
 			});
@@ -34,8 +32,14 @@ module.exports = function(app, db) {
 			'created': Date.now()
 		};
 
-		db.set(req.body.bookmark.title, entry, function(){
-			res.send('add', entry);
-		});
+		if (req.body.bookmark.link.length == 0) {
+			db.rm(entry.title, function(){
+				res.send('add', {remove : entry.title})
+			})
+		} else {
+			db.set(entry.title, entry, function(){
+				res.send('add', entry);
+			});
+		}
 	});
 }

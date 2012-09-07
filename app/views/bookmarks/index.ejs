@@ -68,23 +68,35 @@
 		</div>
 
 		<script type="text/javascript">
-/*
- * This contains the scripts used for Transaction::add & edit
- */
-	$(function() {
-		$("#form-div").hide();
+			/*
+			 * updateLinks method
+			 *
+			 * @todo find and verify if a protocol was used
+			 */
+				updateLinks = function(data) {
 
-		/**
-		 * Setup Buttons
-		 */
-			$("#add-bookmark").bind('click', function() { $("#form-div").show(); });
-			$("#cancel-button").bind('click', function() { $("#form-div").hide(); return false;});
-			$("#add-submit").bind('click', function() {
-				$.post('/bookmarks/add/', $('#add-form').serialize());
-				// $("#add-form").ajaxSubmit({url: '/bookmarks/add/', type: 'post'});
-				// return false;
+					if(data.remove) {
+						console.log(data.remove);
+						$('#title-' + data.remove).parent().remove();
+					} else if ($('#title-' + data.title).length) {
+						$('#title-' + data.title).attr("href", "//" + data.link);
+					} else {
+						$("#button-list").append('<li><a id="title-' + data.title + '" href="//' + data.link + '">' + data.title + '</a></li>');
+					}
+				}
+
+			$(function() {
+				$("#form-div").hide();
+
+				/**
+				 * Setup Buttons
+				 */
+					$("#add-bookmark").bind('click', function() { $("#form-div").show(); });
+					$("#cancel-button").bind('click', function() { $("#form-div").hide(); return false;});
+					$("#add-submit").bind('click', function() {
+						$.post('/bookmarks/add/', $('#add-form').serialize(), function(data){ updateLinks(data); });
+					});
 			});
-	});
 		</script>
 	</body>
 </html>
