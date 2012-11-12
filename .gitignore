@@ -1,2 +1,4 @@
 node_modules/
 bookmarks.db
+public/css/compass_app_log.txt
+public/css/.sass-cache/*

@@ -1,0 +1,13 @@
+h2 {
+	@extend .well;
+	padding: $baseline/2;
+	margin-bottom: $baseline;
+	line-height: $baseline;
+
+	.btn-group {
+		float: right;
+		font-weight: normal;
+		margin-top: -25px;
+		margin-right: -5px;
+	}
+}

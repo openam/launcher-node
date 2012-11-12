@@ -9,55 +9,88 @@
 		<meta name="author" content="Michael Tuttle">
 
 		<!-- CSS Files -->
-		<link rel="stylesheet" type="text/css" href="/css/main.css">
+		<link rel="stylesheet" type="text/css" href="/css/stylesheets/styles.css">
 
 		<!-- Scripts -->
 		<script src="/js/jquery-1.8.1.min.js"></script>
+		<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
 	</head>
 
 	<body>
-		<div id="header-background" style="position: absolute; width: 100%"></div>
-		<div id="page-container">
-			<div id="header">Bookmarks</div>
+		<div class="navbar">
+			<div class="navbar-inner">
+				<div class="container-fluid">
+					<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</a>
+					<a class="brand" href="/">Bookmarks</a>
+					<div class="nav-collapse">
+						<ul class="nav">
+							<li>
+								<a id="add-bookmark" href="#addBookmarkModal" role="button" data-toggle="modal"><i class="icon-file"></i> Add Bookmark</a>
+							</li>
+						</ul>
+					</div><!--/.nav-collapse -->
+				</div>
+			</div>
+		</div>
+
+		<div class="container">
 			<div id="content">
 				<% if (bookmarks.length) { %>
-					<ul id="button-list" class="list-buttons">
-						<% bookmarks.forEach(function(bookmark){ %>
-							<li><a id="title-<%= bookmark.title %>" href="//<%= bookmark.link %>"><%= bookmark.title %></a></li>
-						<% }) %>
-					</ul>
+					<% bookmarks.forEach(function(bookmark){ %>
+						<h2>
+							<div>
+								<a id="title-<%= bookmark.title %>" class="" href="//<%= bookmark.link %>"><%= bookmark.title %>
+								</a>
+							</div>
+							<div class="btn-group">
+								<a id="edit-<%= bookmark.title %>" class="btn"><i class="icon-edit"></i><span class="hidden-phone"> Edit</span></a>
+								<a id="delete-<%= bookmark.title %>" class="btn destroy" href="/bookmarks/<%= bookmark.title %>"><i class="icon-remove"></i><span class="hidden-phone">  Delete</span></a>
+							</div>
+						</h2>
+					<% }) %>
 				<% } else { %>
 					<p>You have no bookmarks.</p>
 				<% } %>
 			</div>
 
-			<div class="center">
-                <form method="get" action="http://www.google.com/search" name="search">
-	                <input name="q" value="" id="search-input" />
-	                <button id="search-button">Search</button>
-                </form>
-	        </div>
-
-			<a id="add-bookmark" href="#">Add Bookmark</a>
-			<div id="form-div">
-				<h1><%= title %></h1>
-				<form id="add-form" method="post" action="/bookmarks/add" class="form-horizontal">
-					<div class="control-group">
-						<label class="control-label" for="bookmark[title]">Title</label>
-						<div class="controls">
-							<input type="text" id="title" name="bookmark[title]" placeholder="Title">
-						</div>
-					</div>
-					<div class="control-group">
-						<label class="control-label" for="bookmark[link]">Link</label>
-						<div class="controls">
-							<input type="text" id="link" name="bookmark[link]" placeholder="www.example.com">
-						</div>
+			<div>
+				<form method="get" action="http://www.google.com/search" name="search">
+					<div class="input-append">
+						<input class="span2" id="search-input" name="q" type="text">
+						<button class="btn" type="search-button"><i class="icon-search"></i> Google</button>
 					</div>
 				</form>
-				<div class="add-form-buttons">
+			</div>
+
+			<!-- Add Bookmark Modal -->
+			<div id="addBookmarkModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h3 id="myModalLabel">Add Bookmark</h3>
+				</div>
+				<div class="modal-body">
+					<form id="add-form" method="post" action="/bookmarks/add" class="form-horizontal">
+						<div class="control-group">
+							<label class="control-label" for="bookmark[title]">Title</label>
+							<div class="controls">
+								<input type="text" id="title" name="bookmark[title]" placeholder="Title">
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="bookmark[link]">Link</label>
+							<div class="controls">
+								<input type="text" id="link" name="bookmark[link]" placeholder="www.example.com">
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
 					<button id="add-submit" class="btn btn-primary">Save changes</button>
-					<button id="cancel-button" class="btn">Cancel</button>
+					<button id="cancel-button" class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
 				</div>
 			</div>
 
@@ -74,27 +107,73 @@
 			 * @todo find and verify if a protocol was used
 			 */
 				updateLinks = function(data) {
-
 					if(data.remove) {
-						console.log(data.remove);
-						$('#title-' + data.remove).parent().remove();
+						$('#title-' + data.remove).parent().parent().remove();
 					} else if ($('#title-' + data.title).length) {
 						$('#title-' + data.title).attr("href", "//" + data.link);
 					} else {
-						$("#button-list").append('<li><a id="title-' + data.title + '" href="//' + data.link + '">' + data.title + '</a></li>');
+						var lastItem = $('#content h2').last().clone();
+						lastItem.find('a').each(function(){
+							var $this = $(this);
+							if ($this.attr('id')) {
+								var id = $this.attr('id');
+
+								if (id.match(/^title/)) {
+									$this.attr('id', "title-" + data.title);
+									$this.attr('href', 'http://' + data.link);
+									$this.html(data.title);
+								}
+
+								if (id.match(/^edit/)) {
+									// todo: need to modify for edit
+								}
+
+								if (id.match(/^delete/)) {
+									$this.attr('href', '/bookmarks/' + data.title);
+								}
+							}
+						})
+
+						$('#content').append(lastItem);
+						setDestroyLink();
 					}
 				}
 
-			$(function() {
-				$("#form-div").hide();
+			/**
+			 * setDestroyLink method;
+			 */
+				setDestroyLink = function() {
+					$('.destroy').live('click', function(e) {
+					  e.preventDefault();
+					  if (confirm('Are you sure you want to delete this item?')) {
+					    var element = $(this),
+					        form = $('<form></form>');
+					    form
+					      .attr({
+					        method: 'POST',
+					        action: element.attr('href')
+					      })
+					      .hide()
+					      .append('<input type="hidden" />')
+					      .find('input')
+					      .attr({
+							'name': '_method',
+							'value': 'delete'
+					      })
+					      .end()
+					      .submit();
+					  }
+					});
+				}
 
+			$(function() {
 				/**
 				 * Setup Buttons
 				 */
-					$("#add-bookmark").bind('click', function() { $("#form-div").show(); });
-					$("#cancel-button").bind('click', function() { $("#form-div").hide(); return false;});
+					setDestroyLink();
 					$("#add-submit").bind('click', function() {
 						$.post('/bookmarks/add/', $('#add-form').serialize(), function(data){ updateLinks(data); });
+						$('#addBookmarkModal').modal('hide');
 					});
 			});
 		</script>

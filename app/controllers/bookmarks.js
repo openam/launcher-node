@@ -44,4 +44,17 @@ module.exports = function(app, db) {
 			});
 		}
 	});
+
+	/**
+	 * Delete
+	 *
+	 * todo: need to make this so that it just returns what title needs to be deleted instead of redirecting.
+	 */
+	app.del('/bookmarks/:title', function(req, res){
+		var title = req.params.title;
+
+		db.rm(title, function(){
+			res.redirect('/bookmarks');
+		})
+	});
 }
